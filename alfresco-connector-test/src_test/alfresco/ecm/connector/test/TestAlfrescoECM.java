@@ -10,6 +10,7 @@ import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubProcessCallResult;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
 import ch.ivyteam.ivy.environment.AppFixture;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.scripting.objects.List;
 import ch.ivyteam.ivy.security.ISession;
 
@@ -32,7 +33,7 @@ public class TestAlfrescoECM {
     SubProcessCallResult result = bpmClient.start()
       .subProcess(CALL_READ_DOCUMENTS).as().session(session)
       .execute("-shared-").subResult();
-    assertThat(result.param("connectionError", String.class)).isEmpty();
+	assertThat(result.param("connectionError", String.class)).isEmpty(); 
     assertThat(result.param("documents", List.class)).isNotEmpty();
   }
 }

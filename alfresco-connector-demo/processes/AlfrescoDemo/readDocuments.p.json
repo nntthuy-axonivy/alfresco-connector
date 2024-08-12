@@ -1,5 +1,5 @@
 {
-  "format" : "10.0.0",
+  "$schema" : "https://json-schema.axonivy.com/process/11.3.0/process.json",
   "id" : "17811D7894B7C803",
   "kind" : "CALLABLE_SUB",
   "config" : {
@@ -10,10 +10,10 @@
       "type" : "CallSubStart",
       "name" : "call(folderid)",
       "config" : {
-        "callSignature" : "call",
+        "signature" : "call",
         "input" : {
           "params" : [
-            { "name" : "folderid", "type" : "String" }
+            { "name" : "folderid", "type" : "String", "desc" : "" }
           ],
           "map" : {
             "out.folderid" : "param.folderid"
@@ -21,8 +21,8 @@
         },
         "result" : {
           "params" : [
-            { "name" : "connectionError", "type" : "String" },
-            { "name" : "documents", "type" : "List<com.alfresco.api.explorer.NodeChildAssociationEntry>" }
+            { "name" : "connectionError", "type" : "String", "desc" : "" },
+            { "name" : "documents", "type" : "List<com.alfresco.api.explorer.NodeChildAssociationEntry>", "desc" : "" }
           ],
           "map" : {
             "result.connectionError" : "in.connectionError",
@@ -34,7 +34,9 @@
         "at" : { "x" : 96, "y" : 112 },
         "labelOffset" : { "x" : 18, "y" : 37 }
       },
-      "connect" : { "id" : "f3", "to" : "f6" }
+      "connect" : [
+        { "id" : "f3", "to" : "f6" }
+      ]
     }, {
       "id" : "f1",
       "type" : "CallSubEnd",
@@ -49,31 +51,35 @@
         "of  Folder"
       ],
       "config" : {
-        "path" : "/nodes/{nodeId}/children",
-        "clientId" : "f0cc7209-7cdd-4a5d-9dde-72257a4bf963",
-        "clientErrorCode" : "ivy:error:rest:client",
-        "queryParams" : {
-          "skipCount" : "",
-          "maxItems" : "",
-          "orderBy" : "",
-          "where" : "",
-          "include" : "",
-          "relativePath" : "",
-          "includeSource" : "",
-          "fields" : ""
+        "target" : {
+          "clientId" : "f0cc7209-7cdd-4a5d-9dde-72257a4bf963",
+          "path" : "/nodes/{nodeId}/children",
+          "templateParams" : {
+            "nodeId" : "in.folderid"
+          },
+          "queryParams" : {
+            "skipCount" : "",
+            "maxItems" : "",
+            "orderBy" : "",
+            "where" : "",
+            "include" : "",
+            "relativePath" : "",
+            "includeSource" : "",
+            "fields" : ""
+          }
         },
-        "statusErrorCode" : "ivy:error:rest:client",
-        "responseMapping" : {
-          "out.documents" : "result.list.entries"
-        },
-        "templateParams" : {
-          "nodeId" : "in.folderid"
-        },
-        "resultType" : "com.alfresco.api.explorer.NodeChildAssociationPaging"
+        "response" : {
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.NodeChildAssociationPaging",
+            "map" : {
+              "out.documents" : "result.list.entries"
+            }
+          }
+        }
       },
       "visual" : {
         "at" : { "x" : 232, "y" : 112 },
-        "size" : { "width" : 128, "height" : 60 },
+        "size" : { "width" : 128 },
         "color" : "NodeStyle4"
       },
       "boundaries" : [ {
@@ -92,9 +98,13 @@
             "at" : { "x" : 280, "y" : 144 },
             "labelOffset" : { "x" : 0, "y" : 15 }
           },
-          "connect" : { "id" : "f4", "to" : "f1", "via" : [ { "x" : 384, "y" : 144 } ] }
+          "connect" : [
+            { "id" : "f4", "to" : "f1", "via" : [ { "x" : 384, "y" : 144 } ] }
+          ]
         } ],
-      "connect" : { "id" : "f2", "to" : "f1" }
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
     }, {
       "id" : "f5",
       "type" : "ProcessAnnotation",
