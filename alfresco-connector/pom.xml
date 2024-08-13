@@ -4,10 +4,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.axonivy.connector.alfresco</groupId>
   <artifactId>alfresco-connector</artifactId>
-  <version>11.4.0-SNAPSHOT</version>
+  <version>11.3.1-SNAPSHOT</version>
   <packaging>iar</packaging>
   <properties>
-    <!-- <project.build.plugin.version>10.0.16</project.build.plugin.version>-->
     <project.build.plugin.version>11.3.0</project.build.plugin.version>
   </properties>
   <pluginRepositories>
