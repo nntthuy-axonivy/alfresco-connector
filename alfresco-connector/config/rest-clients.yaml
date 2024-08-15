@@ -4,6 +4,7 @@ RestClients:
   #Admin Url: https//localhost:8080/share
   Alfresco:
     UUID: f0cc7209-7cdd-4a5d-9dde-72257a4bf963
+    Url: http://localhost:8080/alfresco/api/-default-/public/alfresco/versions/1
     Icon: res:/webContent/icons/alfresco-logo.png
     Features:
     - ch.ivyteam.ivy.rest.client.mapper.JsonFeature
