@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/11.3.1/rest-clients.json
 RestClients:
   #Preconfigured for the Docker Based Community Edition running on localhost port 8080
   #Admin Url: https//localhost:8080/share

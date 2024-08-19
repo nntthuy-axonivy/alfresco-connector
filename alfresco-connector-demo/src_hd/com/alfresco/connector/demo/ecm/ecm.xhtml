@@ -35,7 +35,7 @@
 				</p:panel>
 				<p:panel id="datapanel"
 					rendered="#{data.connectionError == null or data.connectionError.length() == 0}">
-					<p:repeat var="folder" value="#{data.folder}">
+					<ui:repeat var="folder" value="#{data.folder}">
 						<p:commandLink actionListener="#{logic.openFolder(folder)}"
 							update=":form:datapanel">
 							<i class="si si-folder-empty" />
@@ -44,9 +44,9 @@
 							<p:spacer width="10"></p:spacer>
 						</p:commandLink>
 						<p:spacer />
-					</p:repeat>
+					</ui:repeat>
 
-					<p:repeat value="#{data.documents}" var="node">
+					<ui:repeat value="#{data.documents}" var="node">
 						<div style="padding-left: 20px; padding-top: 10px;">
 							<i class="si si-common-file-text"></i>
 							<h:outputText value=" #{node.entry.name}" />
@@ -57,7 +57,7 @@
 									value=" by: #{node.entry.createdByUser.displayName}" />
 							</div>
 						</div>
-					</p:repeat>
+					</ui:repeat>
 					<br />
 					<p:outputLabel rendered="#{data.documents.size() eq 0}">
 						<br />No enties found</p:outputLabel>
