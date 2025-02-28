@@ -8,5 +8,5 @@ on:
 
 jobs:
   build:
-    uses: axonivy-market/github-workflows/.github/workflows/dev.yml@v5
+    uses: axonivy-market/github-workflows/.github/workflows/dev.yml@v6
 
