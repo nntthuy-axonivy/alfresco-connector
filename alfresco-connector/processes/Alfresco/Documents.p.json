@@ -1,0 +1,444 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/process/13.1.2/process.json",
+  "id" : "1981C5BC007D86AE",
+  "kind" : "CALLABLE_SUB",
+  "config" : {
+    "data" : "com.alfresco.connector.DocumentsData"
+  },
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "CallSubStart",
+      "name" : "getDocumentsFromFolder(String)",
+      "config" : {
+        "signature" : "getDocumentsFromFolder",
+        "input" : {
+          "params" : [
+            { "name" : "folderId", "type" : "String", "desc" : "" }
+          ],
+          "map" : {
+            "out.folderId" : "param.folderId"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "connectionError", "type" : "String", "desc" : "" },
+            { "name" : "documents", "type" : "List<com.alfresco.api.explorer.NodeChildAssociationEntry>", "desc" : "" }
+          ],
+          "map" : {
+            "result.connectionError" : "in.#connectionError",
+            "result.documents" : "in.#documents"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 112 },
+        "labelOffset" : { "x" : 17, "y" : 57 }
+      },
+      "connect" : [
+        { "id" : "f3", "to" : "f6" }
+      ]
+    }, {
+      "id" : "f1",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 384, "y" : 112 }
+      }
+    }, {
+      "id" : "f6",
+      "type" : "RestClientCall",
+      "name" : [
+        "Read Documents",
+        "of  Folder"
+      ],
+      "config" : {
+        "target" : {
+          "clientId" : "f0cc7209-7cdd-4a5d-9dde-72257a4bf963",
+          "path" : "/nodes/{nodeId}/children",
+          "templateParams" : {
+            "nodeId" : "in.folderid"
+          },
+          "queryParams" : {
+            "skipCount" : "",
+            "maxItems" : "",
+            "orderBy" : "",
+            "where" : "",
+            "include" : "",
+            "relativePath" : "",
+            "includeSource" : "",
+            "fields" : ""
+          }
+        },
+        "response" : {
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.NodeChildAssociationPaging",
+            "map" : {
+              "out.documents" : "result.list.entries"
+            }
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 232, "y" : 112 },
+        "size" : { "width" : 128 },
+        "color" : "NodeStyle4"
+      },
+      "boundaries" : [ {
+          "id" : "f31",
+          "type" : "ErrorBoundaryEvent",
+          "name" : "connection error",
+          "config" : {
+            "output" : {
+              "map" : {
+                "out" : "in",
+                "out.connectionError" : "\"Connection failed. Check the connection properties of the Alfresco ECM Rest client\""
+              }
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 280, "y" : 146 },
+            "labelOffset" : { "x" : 17, "y" : 41 }
+          },
+          "connect" : [
+            { "id" : "f4", "to" : "f1", "via" : [ { "x" : 384, "y" : 144 } ] }
+          ]
+        } ],
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
+    }, {
+      "id" : "f5",
+      "type" : "ProcessAnnotation",
+      "name" : "Alfresco ECM: Read document nodes from folder",
+      "visual" : {
+        "at" : { "x" : 216, "y" : 48 },
+        "size" : { "width" : 288, "height" : 30 }
+      }
+    }, {
+      "id" : "f32",
+      "type" : "CallSubStart",
+      "name" : "postDocumentToFolder(String,File)",
+      "config" : {
+        "signature" : "postDocumentToFolder",
+        "input" : {
+          "params" : [
+            { "name" : "folderId", "type" : "String", "desc" : "" },
+            { "name" : "file", "type" : "java.io.File", "desc" : "" }
+          ],
+          "map" : {
+            "out.file" : "param.file",
+            "out.folderId" : "param.folderId"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "connectionError", "type" : "String", "desc" : "" },
+            { "name" : "nodeEntry", "type" : "com.alfresco.api.explorer.NodeEntry", "desc" : "" }
+          ],
+          "map" : {
+            "result.connectionError" : "in.#connectionError",
+            "result.nodeEntry" : "in.#nodeEntry"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 304 },
+        "labelOffset" : { "x" : 9, "y" : 65 }
+      },
+      "connect" : [
+        { "id" : "f34", "to" : "f33" }
+      ]
+    }, {
+      "id" : "f33",
+      "type" : "RestClientCall",
+      "name" : [
+        "POST document ",
+        "to \"Folder\""
+      ],
+      "config" : {
+        "method" : "POST",
+        "target" : {
+          "clientId" : "f0cc7209-7cdd-4a5d-9dde-72257a4bf963",
+          "path" : "/nodes/{nodeId}/children",
+          "templateParams" : {
+            "nodeId" : "in.folderid"
+          },
+          "queryParams" : {
+            "include" : "",
+            "fields" : "",
+            "autoRename" : ""
+          }
+        },
+        "body" : {
+          "type" : "FORM",
+          "mediaType" : "multipart/form-data",
+          "form" : {
+            "name" : [ "" ],
+            "nodeType" : [ "" ],
+            "aspectNames" : [ "" ],
+            "properties" : [ "" ],
+            "permissions" : [ "" ],
+            "definition" : [ "" ],
+            "relativePath" : [ "" ],
+            "association" : [ "" ],
+            "secondaryChildren" : [ "" ],
+            "targets" : [ "" ],
+            "filedata" : [ "in.file" ]
+          },
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.NodeBodyCreate"
+          }
+        },
+        "response" : {
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.NodeEntry",
+            "map" : {
+              "out.nodeEntry" : "result"
+            }
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 232, "y" : 304 },
+        "size" : { "width" : 128 },
+        "color" : "NodeStyle4"
+      },
+      "boundaries" : [ {
+          "id" : "f37",
+          "type" : "ErrorBoundaryEvent",
+          "config" : {
+            "output" : {
+              "map" : {
+                "out" : "in",
+                "out.connectionError" : "\"Connection failed. Check the connection properties of the Alfresco ECM Rest client\""
+              }
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 272, "y" : 346 }
+          },
+          "connect" : [
+            { "id" : "f38", "to" : "f35", "via" : [ { "x" : 384, "y" : 344 } ] }
+          ]
+        } ],
+      "connect" : [
+        { "id" : "f36", "to" : "f35" }
+      ]
+    }, {
+      "id" : "f35",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 384, "y" : 304 }
+      }
+    }, {
+      "id" : "f39",
+      "type" : "CallSubStart",
+      "name" : "addNewNodeFolder(String)",
+      "config" : {
+        "signature" : "addNewNodeFolder",
+        "input" : {
+          "params" : [
+            { "name" : "newFolderName", "type" : "String", "desc" : "" }
+          ],
+          "map" : {
+            "out.newFolderName" : "param.newFolderName"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "nodeEntry", "type" : "com.alfresco.api.explorer.NodeEntry", "desc" : "" }
+          ],
+          "map" : {
+            "result.nodeEntry" : "in.#nodeEntry"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 464 }
+      },
+      "connect" : [
+        { "id" : "f42", "to" : "f40" }
+      ]
+    }, {
+      "id" : "f40",
+      "type" : "RestClientCall",
+      "name" : [
+        "add a Folder ",
+        "to node \"Root\" "
+      ],
+      "config" : {
+        "method" : "POST",
+        "target" : {
+          "clientId" : "f0cc7209-7cdd-4a5d-9dde-72257a4bf963",
+          "path" : "/nodes/{nodeId}/children",
+          "templateParams" : {
+            "nodeId" : "\"-root-\""
+          },
+          "queryParams" : {
+            "autoRename" : "",
+            "include" : "",
+            "fields" : ""
+          }
+        },
+        "body" : {
+          "form" : {
+            "content" : [ "\"My ivy comment\"" ],
+            "" : [ "" ]
+          },
+          "raw" : [
+            "{",
+            "  \"name\":\"AxonIvy Documents\",",
+            "  \"nodeType\":\"cm:folder\"",
+            "}"
+          ],
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.NodeBodyCreate",
+            "map" : {
+              "param.name" : "in.newFoldername",
+              "param.nodeType" : "\"cm:folder\""
+            }
+          }
+        },
+        "response" : {
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.NodeEntry",
+            "map" : {
+              "out.nodeEntry" : "result"
+            }
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 240, "y" : 464 },
+        "size" : { "width" : 128 }
+      },
+      "boundaries" : [ {
+          "id" : "f49",
+          "type" : "ErrorBoundaryEvent",
+          "config" : {
+            "output" : {
+              "map" : {
+                "out" : "in",
+                "out.connectionError" : "\"Connection failed. Check the connection properties of the Alfresco ECM Rest client\""
+              }
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 280, "y" : 506 }
+          },
+          "connect" : [
+            { "id" : "f50", "to" : "f43" }
+          ]
+        } ],
+      "connect" : [
+        { "id" : "f44", "to" : "f43" }
+      ]
+    }, {
+      "id" : "f41",
+      "type" : "RestClientCall",
+      "name" : [
+        "add a comment ",
+        "to folder"
+      ],
+      "config" : {
+        "method" : "POST",
+        "target" : {
+          "clientId" : "f0cc7209-7cdd-4a5d-9dde-72257a4bf963",
+          "path" : "/nodes/{nodeId}/comments",
+          "templateParams" : {
+            "nodeId" : "in.folderid"
+          },
+          "queryParams" : {
+            "fields" : ""
+          }
+        },
+        "body" : {
+          "form" : {
+            "content" : [ "\"My ivy comment\"" ],
+            "" : [ "" ]
+          },
+          "raw" : [
+            "{",
+            "  \"content\": \"This is an ivy comment\"",
+            "}"
+          ],
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.CommentBody",
+            "map" : {
+              "param.content" : "in.comment"
+            }
+          }
+        },
+        "response" : {
+          "entity" : {
+            "type" : "com.alfresco.api.explorer.CommentEntry"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 248, "y" : 608 },
+        "size" : { "width" : 128 }
+      },
+      "boundaries" : [ {
+          "id" : "f51",
+          "type" : "ErrorBoundaryEvent",
+          "config" : {
+            "output" : {
+              "map" : {
+                "out" : "in",
+                "out.connectionError" : "\"Connection failed. Check the connection properties of the Alfresco ECM Rest client\""
+              }
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 288, "y" : 648 }
+          },
+          "connect" : [
+            { "id" : "f52", "to" : "f47" }
+          ]
+        } ],
+      "connect" : [
+        { "id" : "f48", "to" : "f47" }
+      ]
+    }, {
+      "id" : "f43",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 432, "y" : 464 }
+      }
+    }, {
+      "id" : "f45",
+      "type" : "CallSubStart",
+      "name" : "addCommentToFodler(String,String)",
+      "config" : {
+        "signature" : "addCommentToFodler",
+        "input" : {
+          "params" : [
+            { "name" : "folderId", "type" : "String", "desc" : "" },
+            { "name" : "comment", "type" : "String", "desc" : "" }
+          ],
+          "map" : {
+            "out.comment" : "param.comment",
+            "out.folderId" : "param.folderId"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 608 },
+        "labelOffset" : { "x" : 17, "y" : 49 }
+      },
+      "connect" : [
+        { "id" : "f46", "to" : "f41" }
+      ]
+    }, {
+      "id" : "f47",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 432, "y" : 608 }
+      }
+    } ],
+  "layout" : {
+    "colors" : {
+      "NodeStyle4" : "rgb(0, 128, 0)"
+    }
+  }
+}
